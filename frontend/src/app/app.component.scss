@@ -1,0 +1,41 @@
+.title {
+  flex: 1 1 auto;
+  text-align: center;
+  height: 100%;
+  padding: 10px 0;
+
+  &__logo {
+    width: auto;
+    height: 100%;
+  }
+}
+
+.mat-drawer {
+  &.mat-drawer-push {
+    background-color: #212121;
+  }
+}
+
+.logo {
+  height: auto;
+  width: 145px;
+}
+
+#content {
+  margin: 84px 20px 20px 20px;
+  @media screen and (max-width: 600px) {
+    margin-top: 76px;
+  }
+}
+
+.mat-toolbar.header {
+  position: fixed;
+}
+
+.mat-progress-bar {
+  position: fixed;
+  top: 64px;
+  @media screen and (max-width: 600px) {
+    top: 56px;
+  }
+}

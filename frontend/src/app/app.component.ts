@@ -8,8 +8,12 @@ import { WebSocketService } from './shared/web-socket.service';
 })
 export class AppComponent {
 
-  constructor(socket: WebSocketService) {
+  constructor(private socket: WebSocketService) {
+    this.socket.initialConnect().then(() => {
 
+    }).catch(() => {
+
+    });
   }
 
 }

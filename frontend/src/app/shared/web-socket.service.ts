@@ -4,26 +4,48 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class WebSocketService {
 
+  private _initialConnectionPromise: Promise<any>;
+
   constructor() {
-    const socket = new WebSocket(environment.ws_url);
-    socket.onopen = (event: Event) => {
-      console.log("OnOpen", event);
-    };
-    socket.onclose = (event: CloseEvent) => {
-      console.log("OnClose", event);
-      if (event.wasClean) {
-        console.log('Соединение закрыто чисто');
-      } else {
-        console.log('Обрыв соединения'); // например, "убит" процесс сервера
-      }
-      console.log('Код: ' + event.code + ' причина: ' + event.reason);
-    };
-    socket.onmessage = (event: MessageEvent) => {
-      console.log("OnMessage", event);
-    };
-    socket.onerror = (event: ErrorEvent) => {
-      console.log("OnError", event);
-    };
+
+    this._initialConnectionPromise = new Promise((_resolve, _reject) => {
+      let resolve = () => {
+        _resolve();
+        resolve = () => {
+        };
+      };
+      let reject = () => {
+        _reject();
+        reject = () => {
+        };
+      };
+      const socket = new WebSocket(environment.ws_url);
+      socket.onopen = (event: Event) => {
+        console.info("OnOpen", event);
+        resolve();
+      };
+      socket.onclose = (event: CloseEvent) => {
+        console.error("OnClose", event);
+        if (event.wasClean) {
+          console.error('Соединение закрыто чисто');
+        } else {
+          console.error('Обрыв соединения'); // например, "убит" процесс сервера
+        }
+        console.error('Код: ' + event.code + ' причина: ' + event.reason);
+        reject();
+      };
+      socket.onmessage = (event: MessageEvent) => {
+        console.info("OnMessage", event);
+      };
+      socket.onerror = (event: ErrorEvent) => {
+        console.error("OnError", event);
+        reject();
+      };
+    });
+  }
+
+  public initialConnect(): Promise<any> {
+    return this._initialConnectionPromise;
   }
 
 }
